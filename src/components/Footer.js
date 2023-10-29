@@ -7,12 +7,23 @@ function Footer() {
     <div className="footer-container">
       <div class="footer-links">
         <div className="footer-logo">
-          <Link to="/" className="logo">
-            <img
-              src={require("../assets/images/img-logo.png")}
-              alt="Company Logo"
-            />
-          </Link>
+          <div className="footer-logo-image">
+            <Link to="/" className="logo-image">
+              <img
+                src={require("../assets/images/img-logo.png")}
+                alt="Company Logo"
+              />
+            </Link>
+          </div>
+          <div className="footer-logo-text">
+            <Link to="/" className="logo-text">
+              PROJECT
+              <br />
+              GREEN
+              <br />
+              PLAY
+            </Link>
+          </div>
         </div>
         <div class="footer-link-items">
           <h2>Contact Us</h2>
@@ -28,7 +39,7 @@ function Footer() {
         </div>
       </div>
       <section class="copyright">
-        <small class="website-rights">Project Green Play © 2023</small>
+        <small class="website-rights">Project Green Play  &copy; {new Date().getFullYear()}</small>
       </section>
     </div>
   );
