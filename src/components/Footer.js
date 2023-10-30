@@ -8,12 +8,10 @@ function Footer() {
       <div class="footer-links">
         <div className="footer-logo">
           <div className="footer-logo-image">
-            <Link to="/" className="logo-image">
-              <img
-                src={require("../assets/images/img-logo.png")}
-                alt="Company Logo"
-              />
-            </Link>
+            <img
+              src={require("../assets/images/img-logo.png")}
+              alt="Company Logo"
+            />
           </div>
           <div className="footer-logo-text">
             <Link to="/" className="logo-text">
@@ -39,7 +37,9 @@ function Footer() {
         </div>
       </div>
       <section class="copyright">
-        <small class="website-rights">Project Green Play  &copy; {new Date().getFullYear()}</small>
+        <small class="website-rights">
+          Project Green Play &copy; {new Date().getFullYear()}
+        </small>
       </section>
     </div>
   );

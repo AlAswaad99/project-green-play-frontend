@@ -1,6 +1,6 @@
 .footer-container {
   background-color: #242424;
-  padding: 4rem 0 2rem 0;
+  padding: 2rem 0 2rem 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,7 +12,7 @@
   max-width: 1200px;
   display: flex;
   justify-content: center;
-  max-height: 300px;
+  max-height: 200px;
 }
 
 .footer-logo {
@@ -23,20 +23,18 @@
 .footer-logo-image {
   max-width: 100px;
   object-fit: contain;
+  display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .footer-logo-image img {
-  height: 50%;
+  height: 60%;
+  transform: translate(0%, -15%);
 }
 
 .footer-logo-text {
   margin: 30px;
-}
-
-.footer-logo {
-  display: flex;
-  flex-direction: row;
 }
 
 .logo-text {
@@ -77,7 +75,7 @@
 
 .website-rights {
   color: #fff;
-  margin-top: 100px;
+  margin-top: 10px;
   margin-bottom: 5px;
 }
 
