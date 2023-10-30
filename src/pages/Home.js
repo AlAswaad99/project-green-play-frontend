@@ -7,6 +7,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <div>Home</div>
       <Footer />
     </>
   );
