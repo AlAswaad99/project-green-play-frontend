@@ -9,7 +9,7 @@ function About() {
         <img
           src={require("../assets/images/img-2.jpg")}
           alt="Forest trees"
-          className="image"
+          className="about-image"
         />
         <div className="text-wrapper">
           <h1>Making environmentalism fun and competitive!</h1>

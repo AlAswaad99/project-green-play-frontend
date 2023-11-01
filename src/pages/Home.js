@@ -29,6 +29,7 @@ function Home() {
           </div>
           <div className="about-image">
             <img
+              className="home-image"
               src={require("../assets/images/img-1.jpg")}
               alt="Forest Trees"
             />
@@ -38,6 +39,7 @@ function Home() {
         <div className="mission">
           <div className="mission-image">
             <img
+              className="home-image"
               src={require("../assets/images/img-1.jpg")}
               alt="Forest Trees"
             />
@@ -86,6 +88,7 @@ function Home() {
           </div>
           <div className="features-image">
             <img
+              className="home-image"
               src={require("../assets/images/img-1.jpg")}
               alt="Forest Trees"
             />

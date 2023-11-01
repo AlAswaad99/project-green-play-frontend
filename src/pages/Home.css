@@ -27,7 +27,7 @@
   background-color: #529b78;
 }
 
-img {
+.home-image {
   object-fit: contain;
   width: 500px;
   height: auto;
@@ -64,7 +64,7 @@ p {
     padding: 10% 1rem;
   }
 
-  img {
+  .home-image {
     margin-top: 2rem;
     margin-bottom: 2rem;
   }
@@ -80,7 +80,7 @@ p {
 }
 
 @media screen and (max-width: 500px) {
-  img {
+  .home-image {
     width: 400px;
   }
 
