@@ -1,0 +1,116 @@
+[
+  {
+    "organization": "Google",
+    "past30Days": 10000,
+    "allTime": 100000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_logo.png"
+  },
+  {
+    "organization": "Tesla",
+    "past30Days": 5000,
+    "allTime": 50000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Tesla_logo.svg/250px-Tesla_logo.svg.png"
+  },
+  {
+    "organization": "Netflix",
+    "past30Days": 2500,
+    "allTime": 25000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Netflix_logo.svg/250px-Netflix_logo.svg.png"
+  },
+  {
+    "organization": "Amazon",
+    "past30Days": 2000,
+    "allTime": 20000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/250px-Amazon_logo.svg.png"
+  },
+  {
+    "organization": "Apple",
+    "past30Days": 1500,
+    "allTime": 15000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/250px-Apple_logo_black.svg.png"
+  },
+  {
+    "organization": "Microsoft",
+    "past30Days": 1000,
+    "allTime": 10000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Microsoft_logo.svg/250px-Microsoft_logo.svg.png"
+  },
+  {
+    "organization": "Meta",
+    "past30Days": 500,
+    "allTime": 5000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Meta_AI_logo.png"
+  },
+  {
+    "organization": "Walmart",
+    "past30Days": 250,
+    "allTime": 2500,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Walmart_logo.svg/250px-Walmart_logo.svg.png"
+  },
+  {
+    "organization": "ExxonMobil",
+    "past30Days": 200,
+    "allTime": 2000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/ExxonMobil_logo.svg/250px-ExxonMobil_logo.svg.png"
+  },
+  {
+    "organization": "Johnson & Johnson",
+    "past30Days": 150,
+    "allTime": 1500,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Johnson_%26_Johnson_logo.svg/250px-Johnson_%26_Johnson_logo.svg.png"
+  },
+  {
+    "organization": "Berkshire Hathaway",
+    "past30Days": 100,
+    "allTime": 1000,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Berkshire_Hathaway_logo.svg/250px-Berkshire_Hathaway_logo.svg.png"
+  },
+  {
+    "organization": "UnitedHealth Group",
+    "past30Days": 50,
+    "allTime": 500,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/UnitedHealth_Group_logo.svg/250px-UnitedHealth_Group_logo.svg.png"
+  },
+  {
+    "organization": "Procter & Gamble",
+    "past30Days": 25,
+    "allTime": 250,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Procter_and_Gamble_logo.svg/250px-Procter_and_Gamble_logo.svg.png"
+  },
+  {
+    "organization": "Home Depot",
+    "past30Days": 20,
+    "allTime": 200,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Home_Depot_logo.svg/250px-Home_Depot_logo.svg.png"
+  },
+  {
+    "organization": "Walgreens Boots Alliance",
+    "past30Days": 15,
+    "allTime": 150,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Walgreens_Boots_Alliance_logo.svg/250px-Walgreens_Boots_Alliance_logo.svg.png"
+  },
+  {
+    "organization": "Visa",
+    "past30Days": 10,
+    "allTime": 100,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Visa_Inc._logo.svg/250px-Visa_Inc._logo.svg.png"
+  },
+  {
+    "organization": "Mastercard",
+    "past30Days": 5,
+    "allTime": 50,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Mastercard_logo.svg/250px-Mastercard_logo.svg.png"
+  },
+  {
+    "organization": "PayPal",
+    "past30Days": 2,
+    "allTime": 20,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/PayPal_logo.svg/250px-PayPal_logo.svg.png"
+  },
+  {
+    "organization": "Airbnb",
+    "past30Days": 1,
+    "allTime": 10,
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Airbnb_logo.svg/250px-Airbnb_logo.svg.png"
+  }
+]
