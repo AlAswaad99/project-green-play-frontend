@@ -3,12 +3,10 @@ import Footer from "../components/Footer";
 
 function Leaderboard() {
   return (
-    <div>
-      <div>
-        Leaderboard
-        <Footer />
-      </div>
-    </div>
+    <>
+      <div>Leaderboard</div>
+      <Footer />
+    </>
   );
 }
 
