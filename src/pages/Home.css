@@ -1,0 +1,91 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about,
+.mission,
+.features {
+  display: flex;
+  flex-direction: row;
+  padding: 10% 20%;
+  align-items: center;
+  justify-content: center;
+}
+
+.about {
+  background-color: #0f2b39;
+  color: #ffff;
+}
+
+.mission {
+  background-color: #d0c4aa;
+}
+
+.features {
+  background-color: #529b78;
+}
+
+img {
+  object-fit: contain;
+  width: 500px;
+  height: auto;
+  border-radius: 5%;
+}
+
+.about-text,
+.features-text {
+  padding-right: 50px;
+}
+
+.mission-text {
+  padding-left: 50px;
+}
+
+p {
+  font-size: 1.2rem;
+  margin: 1.2rem;
+}
+
+@media screen and (max-width: 1740px) {
+  .about,
+  .mission,
+  .features {
+    padding: 10% 10%;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .about,
+  .mission,
+  .features {
+    flex-direction: column;
+    padding: 10% 1rem;
+  }
+
+  img {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .about-text,
+  .features-text {
+    padding-right: 0;
+  }
+
+  .mission-text {
+    padding-left: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  img {
+    width: 400px;
+  }
+
+  p {
+    font-size: 1rem;
+    margin: 1rem;
+  }
+}
