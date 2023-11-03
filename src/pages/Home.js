@@ -1,7 +1,7 @@
 import React from "react";
-import "./Home.css";
-import Hero from "../components/Hero";
 import Footer from "../components/Footer";
+import Hero from "../components/Hero";
+import "./Home.css";
 
 function Home() {
   return (
@@ -27,13 +27,11 @@ function Home() {
               difference in the world. Join today and start gamifying green!
             </p>
           </div>
-          <div className="about-image">
-            <img
-              className="home-image"
-              src={require("../assets/images/img-1.jpg")}
-              alt="Forest Trees"
-            />
-          </div>
+          <img
+            className="home-image"
+            src={require("../assets/images/img-1.jpg")}
+            alt="Forest Trees"
+          />
         </div>
 
         <div className="mission">

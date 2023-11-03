@@ -1,14 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
-import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
+  const navigate = useNavigate();
+
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
+  // const [user, setuser] = useState();
+  const userJSON = localStorage.getItem('user');
 
+  const user = JSON.parse(userJSON);
+  // console.log('zuser', user)
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
+  const logout = () => {
+    setClick(false);
+    localStorage.removeItem("user");
+    navigate('/login');
+
+  }
 
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -18,7 +30,7 @@ function Navbar() {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     showButton();
   }, []);
 
@@ -37,12 +49,19 @@ function Navbar() {
           </div>
 
           <ul className={click ? "nav-menu active" : "nav-menu"}>
-            <li className="nav-item">
+            <li className={`nav-item ${user ? "mt-3" : ""}`}>
               <Link to="/" className="nav-links" onClick={closeMobileMenu}>
                 Home
               </Link>
             </li>
-            <li className="nav-item">
+
+
+            <li className={`nav-item ${user ? "mt-3" : ""}`}>
+              <Link to="/about" className="nav-links" onClick={closeMobileMenu}>
+                About
+              </Link>
+            </li>
+            <li className={`nav-item ${user ? "mt-3" : ""}`}>
               <Link
                 to="/leaderboard"
                 className="nav-links"
@@ -51,23 +70,36 @@ function Navbar() {
                 Leaderboard
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/about" className="nav-links" onClick={closeMobileMenu}>
-                About
+            {user && <li className={`nav-item ${user ? "mt-3" : ""}`}>
+              <Link
+                to="/campaign"
+                className="nav-links"
+                onClick={closeMobileMenu}
+              >
+                Campaign
               </Link>
-            </li>
+            </li>}
 
             <li>
               <Link
-                to="/register"
+                to="/login"
                 className="nav-links-mobile"
                 onClick={closeMobileMenu}
               >
-                Sign Up
+                {user ? user.username : "Sign In"}
               </Link>
             </li>
           </ul>
-          {button && <Button buttonStyle="btn--outline">Sign Up</Button>}
+          {button && (!user ? <Button buttonStyle="btn--outline">
+            Sign In
+          </Button> :
+            <Link
+              to="/#"
+              className="nav-links cursor-default"
+              onClick={logout}
+            >
+              {user.username}
+            </Link>)}
         </div>
       </nav>
     </>

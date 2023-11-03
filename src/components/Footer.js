@@ -1,11 +1,17 @@
 import React from "react";
-import "./Footer.css";
 import { Link } from "react-router-dom";
+import "./Footer.css";
 
 function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth', // Smooth scroll animation
+    });
+  };
   return (
     <div className="footer-container">
-      <div class="footer-links">
+      <div className="footer-links">
         <div className="footer-logo">
           <div className="footer-logo-image">
             <img
@@ -23,21 +29,20 @@ function Footer() {
             </Link>
           </div>
         </div>
-        <div class="footer-link-items">
+        <div className="footer-link-items">
           <h2>Contact Us</h2>
-          <a href="https://www.google.com/maps">Addis Ababa, Ethiopia</a>
-          <a href="tel:+251-90-111-2222">+251-90-111-2222</a>
-          <a href="mailto:info@greenplay.org">info@greenplay.org</a>
+          <a href="/#">Addis Ababa, Ethiopia</a>
+          <a href="/#">+251-90-111-2222</a>
+          <a href="/#">info@greenplay.org</a>
         </div>
-        <div class="footer-link-items">
+        <div className="footer-link-items">
           <h2>Quick Links</h2>
           <Link to="/register">Sign Up</Link>
-          <Link to="/contact-us">Contact Us</Link>
-          <Link to="/about">About</Link>
+          <Link to="/about" onClick={scrollToTop}>About</Link>
         </div>
       </div>
-      <section class="copyright">
-        <small class="website-rights">
+      <section className="copyright">
+        <small className="website-rights">
           Project Green Play &copy; {new Date().getFullYear()}
         </small>
       </section>

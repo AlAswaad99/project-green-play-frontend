@@ -1,5 +1,6 @@
 .register-container {
   display: flex;
+  align-items: center;
   height: 100vh;
 }
 
@@ -9,6 +10,7 @@
   background-image: url(../assets/images/img-6.jpg);
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
   min-width: 500px;
 }
 
@@ -20,6 +22,8 @@
 
 .register-form {
   max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .register-form h1 {
