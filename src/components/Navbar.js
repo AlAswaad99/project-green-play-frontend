@@ -1,6 +1,8 @@
 import React, { useLayoutEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
+import { Auth } from 'aws-sdk';
+
 import "./Navbar.css";
 
 function Navbar() {
@@ -10,13 +12,20 @@ function Navbar() {
   const [button, setButton] = useState(true);
   // const [user, setuser] = useState();
   const userJSON = localStorage.getItem('user');
+  console.log(userJSON)
 
-  const user = JSON.parse(userJSON);
-  // console.log('zuser', user)
+  const user = userJSON !== undefined ? JSON.parse(userJSON) : null;
+  console.log('zuser', user)
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-  const logout = () => {
+  const logout = async () => {
     setClick(false);
+    try {
+      await Auth.signOut();
+      console.log('User signed out');
+  } catch (error) {
+      console.error('Error signing out:', error);
+  }
     localStorage.removeItem("user");
     navigate('/login');
 

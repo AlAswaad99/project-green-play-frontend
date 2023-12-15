@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Leaderboard from "./pages/Leaderboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   return (
@@ -18,7 +19,9 @@ function App() {
         <Routes>
           <Route element={<WithoutNav />}>
             <Route path="/login" Component={Login} />
+            <Route path="/forgot-password" exact Component={ForgotPassword} />
             <Route path="/register" Component={Register} />
+            
           </Route>
           <Route element={<WithNav />}>
             <Route path="/" exact Component={Home} />

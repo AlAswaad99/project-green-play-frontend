@@ -13,6 +13,7 @@ function Hero() {
           className="btns"
           buttonStyle="btn--outline"
           buttonSize="btn--large"
+          route={"/register"}
         >
           SIGN UP
         </Button>

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { userPool } from '../aws-config';
+import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 
 import "./Login.css";
 
@@ -17,10 +19,44 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/login`, formData);
-      localStorage.setItem('user', JSON.stringify(response.data.data));
-      setLoading(false);
-      navigate('/campaign');
+      // const response = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/login`, formData);
+
+      console.log(formData)
+      const authenticationData = {
+        Username: formData.email,
+        Password: formData.password
+    };
+      const authenticationDetails = new AuthenticationDetails(authenticationData);
+      const userData = {
+        Username: formData.email,
+        Pool: userPool
+      };
+
+      const cognitoUser = new CognitoUser(userData);
+
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: (session) => {
+          console.log('Authentication successful', session);
+          localStorage.setItem('session', JSON.stringify(session));
+          setLoading(false);
+          navigate('/campaign');
+          return;
+          // Optionally, handle additional actions after successful sign-in
+        },
+        onFailure: (err) => {
+          console.error('Authentication failed', err.message || JSON.stringify(err));
+          alert('Authentication failed: ' + err.message || JSON.stringify(err))
+          setLoading(false);
+        },
+        newPasswordRequired: (userAttributes, requiredAttributes) => {
+          console.log('New password required');
+          alert("New Password Required")
+          setLoading(false);
+
+          // Optionally, handle new password requirement
+        }
+      });
+
     } catch (error) {
       alert('Sign-in failed. Please check your credentials.');
       console.error('Sign-in failed', error);
@@ -46,7 +82,7 @@ const Login = () => {
           <div className="login-form">
             <h1>Login</h1>
             <p>Email</p>
-            <input type="email" name="email"
+            <input type="text" name="email"
               placeholder="Email address" value={formData.email}
               onChange={handleInputChange} />
             <div className="password">
@@ -65,6 +101,7 @@ const Login = () => {
             </div>
           </div>
         </form>
+        
 
       </div>
     </div>
