@@ -1,33 +1,45 @@
 import React, { useLayoutEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
-import { Auth } from 'aws-sdk';
+import { userPool } from '../aws-config';
 
 import "./Navbar.css";
+import { useUserSessionStore } from "../provider/user";
 
 function Navbar() {
+  const { userSession, setUserSession } = useUserSessionStore();
+
   const navigate = useNavigate();
 
   const [click, setClick] = useState(false);
+  const [loggedOut, setloggedOut] = useState(false);
   const [button, setButton] = useState(true);
   // const [user, setuser] = useState();
-  const userJSON = localStorage.getItem('user');
-  console.log(userJSON)
+  // const userJSON = localStorage.getItem('user');
+  // console.log(userJSON)
 
-  const user = userJSON !== undefined ? JSON.parse(userJSON) : null;
-  console.log('zuser', user)
+  // const user = userJSON !== undefined ? JSON.parse(userJSON) : null;
+  // console.log('zuser', user)
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const logout = async () => {
+    console.log("logging out")
     setClick(false);
-    try {
-      await Auth.signOut();
-      console.log('User signed out');
-  } catch (error) {
-      console.error('Error signing out:', error);
-  }
-    localStorage.removeItem("user");
-    navigate('/login');
+
+    const currentUser = userPool.getCurrentUser();
+    console.log(currentUser)
+    if (currentUser) {
+      currentUser.signOut();
+      localStorage.removeItem("session");
+      setUserSession();
+      setloggedOut(true);
+      navigate('/');
+      // getUserSession();
+      console.log('User signed out successfully');
+    } else {
+      console.warn('No user is currently signed in');
+    }
+
 
   }
 
@@ -39,9 +51,40 @@ function Navbar() {
     }
   };
 
+  const getUserSession = () => {
+    if (userSession) return;
+    const localStorageSession = localStorage.getItem('session');
+
+    if (localStorageSession) {
+      // const user = JSON.parse(localStorageSession);
+      setUserSession(JSON.parse(localStorageSession));
+      return;
+    }
+    navigate("/login")
+  }
+
+  // useLayoutEffect(() => {
+  //   // const currentUser = userPool.getCurrentUser();
+  //   // if (currentUser) {
+  //   //   currentUser.getSession()
+  //   //   currentUser.signOut();
+  //   //   localStorage.removeItem("session");
+  //   //   setUserSession();
+  //   //   setloggedOut(true);
+  //   //   navigate('/');
+  //   //   // getUserSession();
+  //   //   console.log('User signed out successfully');
+  //   // } else {
+  //   //   console.warn('No user is currently signed in');
+  //   // }
+  // }, [userSession, loggedOut]);
+
   useLayoutEffect(() => {
-    showButton();
-  }, []);
+    if (!loggedOut) {
+      showButton();
+      getUserSession();
+    }
+  }, [userSession, loggedOut]);
 
   window.addEventListener("resize", showButton);
 
@@ -58,19 +101,19 @@ function Navbar() {
           </div>
 
           <ul className={click ? "nav-menu active" : "nav-menu"}>
-            <li className={`nav-item ${user ? "mt-3" : ""}`}>
+            <li className={`nav-item ${userSession ? "mt-3" : ""}`}>
               <Link to="/" className="nav-links" onClick={closeMobileMenu}>
                 Home
               </Link>
             </li>
 
 
-            <li className={`nav-item ${user ? "mt-3" : ""}`}>
+            <li className={`nav-item ${userSession ? "mt-3" : ""}`}>
               <Link to="/about" className="nav-links" onClick={closeMobileMenu}>
                 About
               </Link>
             </li>
-            <li className={`nav-item ${user ? "mt-3" : ""}`}>
+            <li className={`nav-item ${userSession ? "mt-3" : ""}`}>
               <Link
                 to="/leaderboard"
                 className="nav-links"
@@ -79,13 +122,13 @@ function Navbar() {
                 Leaderboard
               </Link>
             </li>
-            {user && <li className={`nav-item ${user ? "mt-3" : ""}`}>
+            {userSession && <li className={`nav-item ${userSession ? "mt-3" : ""}`}>
               <Link
                 to="/campaign"
                 className="nav-links"
                 onClick={closeMobileMenu}
               >
-                Campaign
+                Campaigns
               </Link>
             </li>}
 
@@ -95,24 +138,35 @@ function Navbar() {
                 className="nav-links-mobile"
                 onClick={closeMobileMenu}
               >
-                {user ? user.username : "Sign In"}
+                {userSession ? userSession.idToken.payload.name : "Sign In"}
               </Link>
             </li>
           </ul>
-          {button && (!user ? <Button buttonStyle="btn--outline">
+          {button && (!userSession ? <Button buttonStyle="btn--outline">
             Sign In
           </Button> :
             <Link
               to="/#"
-              className="nav-links cursor-default"
-              onClick={logout}
+              className="nav-links dropdown-trigger cursor-default relative inline-block"
+              // onClick={logout}
             >
-              {user.username}
+              {userSession.idToken.payload.name}
+              <Dropdown logout={logout}/>
             </Link>)}
         </div>
       </nav>
     </>
   );
 }
+
+const Dropdown = ({logout}) => {
+  return (
+    <div className="dropdown-content">
+      <ul>
+        <li onClick={logout}>Logout</li>
+      </ul>
+    </div>
+  );
+};
 
 export default Navbar;

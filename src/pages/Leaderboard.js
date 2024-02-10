@@ -42,6 +42,7 @@ const Header = ({ label, value, sortKey, setSortKey, setSortOrder }) => {
 
 // A custom component to display the table row with the data
 const Row = ({ rank, logo, organization, past30Days, allTime, targetNumber, currentNumber }) => {
+  // console.log(organization)
   return (
     <tr key={rank}>
       <td>{rank}</td>
@@ -59,6 +60,7 @@ const Row = ({ rank, logo, organization, past30Days, allTime, targetNumber, curr
 function Leaderboard({ leaderboardData }) {
   // The state variables for the data, sort key and sort order
   // const [data, setData] = useState(leaderboardData ?? dummy);
+  console.log(leaderboardData)
   const data = leaderboardData ?? dummy;
   const [sortKey, setSortKey] = useState("alltime");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -126,7 +128,7 @@ function Leaderboard({ leaderboardData }) {
         <tbody>
 
           {data.sort(compare).map((item, index) => (
-            <Row key={index + 1} rank={index + 1} {...item}  organization={item.username ?? item.organization} />
+            <Row key={index + 1} rank={index + 1} {...item}  organization={item.email.split("@")[0] ?? item.organization} />
           ))}
         </tbody>
       </table>

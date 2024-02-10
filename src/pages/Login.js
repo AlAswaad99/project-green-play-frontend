@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userPool } from '../aws-config';
 import { AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
+import { useUserSessionStore } from '../provider/user';
 
 import "./Login.css";
 
 const Login = () => {
+  const { userSession, setUserSession } = useUserSessionStore();
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -38,6 +41,7 @@ const Login = () => {
         onSuccess: (session) => {
           console.log('Authentication successful', session);
           localStorage.setItem('session', JSON.stringify(session));
+          setUserSession(session);
           setLoading(false);
           navigate('/campaign');
           return;

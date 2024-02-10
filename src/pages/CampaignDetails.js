@@ -4,15 +4,19 @@ import io from 'socket.io-client';
 import axios from '../axios-config';
 import ModalComponent from '../components/Modal';
 import Leaderboard from './Leaderboard';
+import { useUserSessionStore } from '../provider/user';
 
 const CampaignDetailsPage = () => {
     const { id } = useParams(); // Get the campaign ID from the URL parameter
     console.log('id', id)
-    const userJSON = localStorage.getItem('user');
+    // const userJSON = localStorage.getItem('user');
 
-    const user = JSON.parse(userJSON);
+    // const user = JSON.parse(userJSON);
+    const { userSession, setUserSession } = useUserSessionStore();
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [partnerExists, setpartnerExists] = useState(false);
+    const [campaignSuspended, setcampaignSuspended] = useState(false);
     const [partnerID, setpartnerID] = useState(false);
     const [campaign, setCampaign] = useState();
 
@@ -26,15 +30,16 @@ const CampaignDetailsPage = () => {
 
     const handleSubmit = async (data) => {
         if (partnerExists) {
-            await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/partner/${partnerID}`, { progress: data.targetNumber, campaignID: id })
+            await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/partner/${partnerID}`, { progress: data.targetNumber, campaignId: id, partnerId: partnerID })
                 .then(async (response) => {
-                    console.log('response.data.data', response.data.data)
+                    console.log('response.data.body', response.data.body)
                     // setCampaign(response.data.data);
                     await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/campaign/${id}`)
                         .then((response) => {
-                            console.log('response.data.data', response.data.data)
-                            setCampaign(response.data.data);
-                            const alreadyRegistered = response.data.data.registeredPartners.filter(p => p.userID === user.id)
+                            console.log('response.data.body', response.data.body)
+                            setCampaign(response.data.body);
+                            if(response.data.body.status === "COMPLETED" || response.data.body.status === "PENDING") setcampaignSuspended(true)
+                            const alreadyRegistered = response.data.body.partners.filter(p => p.userId === userSession.idToken.payload["cognito:username"])
                             if (alreadyRegistered && alreadyRegistered.length > 0) setpartnerExists(true)
                         })
                         .catch((error) => {
@@ -47,18 +52,19 @@ const CampaignDetailsPage = () => {
                 });
         }
 
-        else await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/partner/`, { ...data, userID: user.id, campaignID: id })
+        else await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/partner/`, { ...data, userId: userSession.idToken.payload["cognito:username"], campaignId: id })
             .then(async (response) => {
-                console.log('response.data.data', response.data.data)
-                // setCampaign(response.data.data);
+                console.log('response.data.body', response.data.body)
+                // setCampaign(response.data.body);
                 await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/campaign/${id}`)
                     .then((response) => {
-                        console.log('response.data.data', response.data.data)
-                        setCampaign(response.data.data);
-                        const alreadyRegistered = response.data.data.registeredPartners.filter(p => p.userID === user.id)
+                        console.log('response.data.body', response.data.body)
+                        setCampaign(response.data.body);
+                        if(response.data.body.status === "COMPLETED" || response.data.body.status === "PENDING") setcampaignSuspended(true)
+                        const alreadyRegistered = response.data.body.partners.filter(p => p.userId === userSession.idToken.payload["cognito:username"])
                         if (alreadyRegistered && alreadyRegistered.length > 0) {
-                            console.log('alreadyRegistered[0]._id', alreadyRegistered[0]._id);
-                            setpartnerExists(true); setpartnerID(alreadyRegistered[0]._id)
+                            console.log('alreadyRegistered[0]._id', alreadyRegistered[0].userId);
+                            setpartnerExists(true); setpartnerID(alreadyRegistered[0].partnerId)
                         }
                     })
                     .catch((error) => {
@@ -78,12 +84,13 @@ const CampaignDetailsPage = () => {
         // Fetch campaign data from the backend API
         axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/v1/campaign/${id}`)
             .then((response) => {
-                console.log('response.data.data', response.data.data)
-                setCampaign(response.data.data);
-                const alreadyRegistered = response.data.data.registeredPartners.filter(p => p.userID === user.id)
+                console.log('response.data.body', response.data.body)
+                setCampaign(response.data.body);
+                if(response.data.body.status === "COMPLETED" || response.data.body.status === "PENDING") setcampaignSuspended(true)
+                const alreadyRegistered = response.data.body.partners.filter(p => p.userId === userSession.idToken.payload["cognito:username"])
                 if (alreadyRegistered && alreadyRegistered.length > 0) {
-                    console.log('alreadyRegistered[0]._id', alreadyRegistered[0]._id);
-                    setpartnerExists(true); setpartnerID(alreadyRegistered[0]._id)
+                    console.log('alreadyRegistered[0]._id', alreadyRegistered[0].userId);
+                    setpartnerExists(true); setpartnerID(alreadyRegistered[0].partnerId)
                 }
             })
             .catch((error) => {
@@ -92,19 +99,30 @@ const CampaignDetailsPage = () => {
     }, []);
     useEffect(() => {
         // Connect to the Socket.io server
-        // const socket = io(process.env.REACT_APP_SOCKET_ENDPOINT);
-        const socket = io(process.env.REACT_APP_SOCKET_ENDPOINT, {
-            transports: ["websocket"]
-        });
+        console.log("connecting")
+        const socket = io(process.env.REACT_APP_SOCKET_ENDPOINT);
+        // const socket = io(process.env.REACT_APP_SOCKET_ENDPOINT, {
+        //     transports: ["websocket"]
+        // });
 
         // Join a room (replace 'your-room-name' with the desired room name)
         socket.emit('join-room', id);
 
         // Define an event listener for the room-specific events
         socket.on('leaderboardData', (data) => {
-            // Handle the received data
-            console.log('Received data:', JSON.parse(data));
-            setCampaign(JSON.parse(data));
+            try{
+                console.log(data)
+                if (data) {
+                    // Handle the received data
+                    console.log('Received data:', JSON.parse(data));
+                    setCampaign(JSON.parse(data));
+                }
+    
+            }
+            catch(e){
+                console.log(e)
+            }
+           
         });
 
         return () => {
@@ -134,6 +152,7 @@ const CampaignDetailsPage = () => {
     // } else if (currentDate > endDate) {
     //     status = 'Completed';
     // }
+    // console.log(campaign && campaign.partners ? campaign.partners : campaign)
 
     return <>
         {
@@ -160,7 +179,7 @@ const CampaignDetailsPage = () => {
                 </div>
 
             </div>
-            <div className='flex justify-end md:pr-24'>
+            {!campaignSuspended && <div className='flex justify-end md:pr-24'>
                 {!partnerExists && <button onClick={openModal} className="text-gray-900 border border-gray-900 hover:bg-gray-900 hover:text-white px-3 py-2 transition-all duration-200">
                     Register for Campaign
                 </button>}
@@ -169,8 +188,8 @@ const CampaignDetailsPage = () => {
                         Save Progress
                     </button>
                 }
-            </div>
-            <Leaderboard key={campaign.registeredPartners} leaderboardData={campaign.registeredPartners} />
+            </div>}
+            <Leaderboard key={campaign.partners} leaderboardData={campaign.partners} />
             <ModalComponent isOpen={modalIsOpen} closeModal={closeModal} onSubmit={handleSubmit} locations={campaign.locations} isSave={partnerExists} />
 
         </div>}

@@ -21,7 +21,7 @@ function ModalComponent({ isOpen, closeModal, onSubmit, locations, isSave }) {
             targetNumber: Number.parseInt(name),
             locations: [selectedValue],
         };
-
+        console.log("adfads fads fasdf adsf",data)
         await onSubmit(data);
         setloading(false);
 

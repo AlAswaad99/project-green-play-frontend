@@ -151,3 +151,36 @@
     transition: 250ms;
   }
 }
+
+
+/* Dropdown.css */
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  top: 80px;
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  color: #242222;
+  min-width: 160px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-content li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown-trigger:hover .dropdown-content {
+  display: block;
+}

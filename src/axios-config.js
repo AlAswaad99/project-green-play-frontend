@@ -1,22 +1,41 @@
 
 import axios from 'axios';
+import { useUserSessionStore } from './provider/user';
+
 
 const axiosInstance = axios.create();
 
 // Add an interceptor for all outgoing requests
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Retrieve the token from local storage (you may need to change this based on your implementation)
-    const userJSON = localStorage.getItem('user');
+    const { userSession } = useUserSessionStore.getState();
 
-    // Parse the JSON string to get the object
-    const user = JSON.parse(userJSON);
-    // Set the authorization header if a token exists
-    if (user) {
-      config.headers['Authorization'] = `Bearer ${user.token}`;
+    console.log("I am here")
+    console.log(userSession);
+    if (!userSession) {
+      const localStorageSession = localStorage.getItem('session');
+
+      if (localStorageSession) {
+        const user = JSON.parse(localStorageSession);
+        config.headers['Authorization'] = `Bearer ${user.idToken.jwtToken}`;
+        return config;
+      }
+      else return Promise.reject("Unauthorized");
+      // if(localStorageSession) setUserSession(localStorageSession)
+      // else navigate("/login")
     }
 
-    return config;
+
+    // // Parse the JSON string to get the object
+    // const user = JSON.parse(userJSON);
+    // // Set the authorization header if a token exists
+    if (userSession) {
+      config.headers['Authorization'] = `Bearer ${userSession.idToken.jwtToken}`;
+      return config;
+
+    }
+    else return Promise.reject("Unautorized");
+
   },
   (error) => {
     return Promise.reject(error);
